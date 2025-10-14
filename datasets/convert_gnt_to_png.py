@@ -4,10 +4,9 @@ import struct
 from PIL import Image
 import pickle
 
-data_dir = './data'
-# train_data_dir = os.path.join(data_dir, 'HWDB1.0trn_gnt')
-# test_data_dir = os.path.join(data_dir, 'HWDB1.0tst_gnt')
-train_data_dir = os.path.join(data_dir, 'HWDB')
+data_dir = './raw_data'
+train_data_dir = os.path.join(data_dir, 'HWDB-1-train')
+test_data_dir = os.path.join(data_dir, 'HWDB-1-test')
 
 def read_from_gnt_dir(gnt_dir=train_data_dir):
     def one_file(f):
@@ -31,33 +30,33 @@ def read_from_gnt_dir(gnt_dir=train_data_dir):
                     yield image, tagcode
 
 if __name__ == '__main__':
-    char_set = set()
-    for _, tagcode in read_from_gnt_dir(gnt_dir=train_data_dir):
-        tagcode_unicode = struct.pack('>H', tagcode).decode('gbk')
-        char_set.add(tagcode_unicode)
-    char_list = list(char_set)
-    char_dict = dict(zip(sorted(char_list), range(len(char_list))))
-
-
-    f = open('char_dict', 'wb')
-    pickle.dump(char_dict, f)
-    f.close()
-
+    # char_set = set()
+    # for _, tagcode in read_from_gnt_dir(gnt_dir=train_data_dir):
+    #     tagcode_unicode = struct.pack('>H', tagcode).decode('gbk')
+    #     char_set.add(tagcode_unicode)
+    # char_list = list(char_set)
+    # char_dict = dict(zip(sorted(char_list), range(len(char_list))))
+    #
+    # f = open('char_dict', 'wb')
+    # pickle.dump(char_dict, f)
+    # f.close()
+    #
+    char_dict = pickle.load(open('char_dict', 'rb'))
     train_counter = 0
     test_counter = 0
     for image, tagcode in read_from_gnt_dir(gnt_dir=train_data_dir):
         tagcode_unicode = struct.pack('>H', tagcode).decode('gbk')
         im = Image.fromarray(image)
-        dir_name = 'train0/' + '%0.5d'%char_dict[tagcode_unicode]
+        dir_name = 'HWDB-1-train/' + '%0.5d'%char_dict[tagcode_unicode]
         if not os.path.exists(dir_name):
             os.mkdir(dir_name)
         im.convert('RGB').save(dir_name+'/' + str(train_counter) + '.png')
         train_counter += 1
-    # for image, tagcode in read_from_gnt_dir(gnt_dir=test_data_dir):
-    #     tagcode_unicode = struct.pack('>H', tagcode).decode('gbk')
-    #     im = Image.fromarray(image)
-    #     dir_name = 'test0/' + '%0.5d'%char_dict[tagcode_unicode]
-    #     if not os.path.exists(dir_name):
-    #         os.mkdir(dir_name)
-    #     im.convert('RGB').save(dir_name+'/' + str(test_counter) + '.png')
-    #     test_counter += 1
+    for image, tagcode in read_from_gnt_dir(gnt_dir=test_data_dir):
+        tagcode_unicode = struct.pack('>H', tagcode).decode('gbk')
+        im = Image.fromarray(image)
+        dir_name = 'HWDB-1-test/' + '%0.5d'%char_dict[tagcode_unicode]
+        if not os.path.exists(dir_name):
+            os.mkdir(dir_name)
+        im.convert('RGB').save(dir_name+'/' + str(test_counter) + '.png')
+        test_counter += 1
