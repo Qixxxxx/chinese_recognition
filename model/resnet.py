@@ -117,10 +117,12 @@ class ResNet(nn.Module):
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                m.weight.data.normal_(0, math.sqrt(2. / n))
+                nn.init.kaiming_normal_(m.weight.data, nonlinearity='relu')
             elif isinstance(m, BatchNorm2d):
                 m.weight.data.fill_(1)
+                m.bias.data.zero_()
+            elif isinstance(m, nn.Linear):
+                m.weight.data.normal_(0.0, 0.0001)
                 m.bias.data.zero_()
 
     def _make_layer(self, block, planes, blocks, stride=1):
@@ -156,6 +158,7 @@ class ResNet(nn.Module):
         x = self.fc(x)
 
         return x
+
 
 
 def load_url(url, model_dir='./model_data', map_location=None):
