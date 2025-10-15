@@ -15,6 +15,7 @@ from utils.loss_record import LossHistory
 
 from model.AlexNet import AlexNet
 from model.resnet import resnet18,resnet34,resnet50
+from model.mobileNetv2 import mobilenetv2
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -40,8 +41,9 @@ if __name__ == '__main__':
     pretrained = False  # 使用预训练权重
     Cuda = True
 
-    model = AlexNet(num_classes=num_classes)
-    # model = resnet18(pretrained=pretrained, num_classes=num_classes)
+    # model = AlexNet(num_classes=num_classes)
+    # model = resnet50(pretrained=pretrained, num_classes=num_classes)
+    model = mobilenetv2(num_classes=num_classes)
 
     # # 导入以及训练好的权重
     # model_path = r"model_data\..."
@@ -62,11 +64,9 @@ if __name__ == '__main__':
     data_transform = {
         "train": transforms.Compose([transforms.RandomResizedCrop(224),
                                      transforms.RandomHorizontalFlip(),
-                                     transforms.ToTensor(),
-                                     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]),
+                                     transforms.ToTensor()]),
         "val": transforms.Compose([transforms.Resize((224, 224)),  # cannot 224, must (224, 224)
-                                   transforms.ToTensor(),
-                                   transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])}
+                                   transforms.ToTensor()])}
 
     train_dataset = datasets.ImageFolder(root=os.path.join(dataset_path, "train"),
                                          transform=data_transform["train"])
