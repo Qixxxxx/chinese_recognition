@@ -13,6 +13,7 @@ from tqdm import tqdm
 from utils.loss_record import LossHistory
 
 from model.AlexNet import AlexNet
+from model.resnet import resnet18,resnet34,resnet50
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -21,21 +22,18 @@ if __name__ == '__main__':
     log_dir = "./logs/"
     dataset_path = "datasets/"
     inputs_size = [224, 224, 3]
-    batch_size = 128
+    batch_size = 32
     num_classes = 7356
     total_epochs = 200
     lr = 0.01
     pretrained = False  # 使用预训练权重
-    weights_init = False
     Cuda = True
 
-    if not pretrained:
-        weights_init = True
-
-    model = AlexNet(num_classes=num_classes, init_weights=weights_init)
+    # model = AlexNet(num_classes=num_classes)
+    model = resnet18(pretrained=pretrained, num_classes=num_classes)
 
     # # 导入以及训练好的权重
-    # model_path = r"model_data\3090_result\ninet\81.55.pth"
+    # model_path = r"model_data\..."
     # print('Loading weights into state dict...')
     # model_dict = model.state_dict()  # 按state_dict导入权重
     # pretrained_dict = torch.load(model_path)
