@@ -22,15 +22,15 @@ if __name__ == '__main__':
     log_dir = "./logs/"
     dataset_path = "datasets/"
     inputs_size = [224, 224, 3]
-    batch_size = 32
+    batch_size = 64
     num_classes = 7356
     total_epochs = 200
     lr = 0.01
     pretrained = False  # 使用预训练权重
     Cuda = True
 
-    # model = AlexNet(num_classes=num_classes)
-    model = resnet18(pretrained=pretrained, num_classes=num_classes)
+    model = AlexNet(num_classes=num_classes)
+    # model = resnet18(pretrained=pretrained, num_classes=num_classes)
 
     # # 导入以及训练好的权重
     # model_path = r"model_data\..."
