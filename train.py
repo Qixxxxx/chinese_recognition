@@ -19,11 +19,11 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 if __name__ == '__main__':
     log_dir = "./logs/"
-    dataset_path = "datasets/flower_data/"
+    dataset_path = "datasets/"
     inputs_size = [224, 224, 3]
-    batch_size = 32
-    num_classes = 5
-    total_epochs = 100
+    batch_size = 128
+    num_classes = 7356
+    total_epochs = 200
     lr = 0.01
     pretrained = False  # 使用预训练权重
     weights_init = False
@@ -68,10 +68,10 @@ if __name__ == '__main__':
 
     train_loader = torch.utils.data.DataLoader(train_dataset,
                                                batch_size=batch_size, shuffle=True,
-                                               num_workers=8)
+                                               num_workers=4)
     validate_loader = torch.utils.data.DataLoader(validate_dataset,
                                                   batch_size=batch_size, shuffle=False,
-                                                  num_workers=8)
+                                                  num_workers=4)
 
     batch_num = train_num // batch_size
     batch_num_val = val_num // batch_size
