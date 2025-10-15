@@ -167,3 +167,6 @@ cython_debug/
 
 /datasets/data/HWDB-1-test/*
 /datasets/data/HWDB-1-train/*
+
+/logs/*
+!/logs/.gitkeep
