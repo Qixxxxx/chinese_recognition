@@ -1,4 +1,5 @@
 import os
+import random
 import sys
 import json
 import torch.backends.cudnn as cudnn
@@ -17,8 +18,18 @@ from model.resnet import resnet18,resnet34,resnet50
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+def seed_everything(seed=11):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
 
 if __name__ == '__main__':
+    seed_everything(3407)
     log_dir = "./logs/"
     dataset_path = "datasets/"
     inputs_size = [224, 224, 3]
