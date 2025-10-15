@@ -68,9 +68,9 @@ if __name__ == '__main__':
         "val": transforms.Compose([transforms.Resize((224, 224)),  # cannot 224, must (224, 224)
                                    transforms.ToTensor()])}
 
-    train_dataset = datasets.ImageFolder(root=os.path.join(dataset_path, "train"),
+    train_dataset = datasets.ImageFolder(root=os.path.join(dataset_path, "train_1"),
                                          transform=data_transform["train"])
-    validate_dataset = datasets.ImageFolder(root=os.path.join(dataset_path, "val"),
+    validate_dataset = datasets.ImageFolder(root=os.path.join(dataset_path, "val_1"),
                                             transform=data_transform["val"])
     train_num = len(train_dataset)
     val_num = len(validate_dataset)
