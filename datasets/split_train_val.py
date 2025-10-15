@@ -2,6 +2,7 @@ import os
 import random
 import shutil
 from multiprocessing import Pool, cpu_count
+
 from tqdm import tqdm
 
 random.seed(0)
@@ -13,14 +14,16 @@ assert os.path.exists(origin_data_path), f"path '{origin_data_path}' does not ex
 train_root = os.path.join(data_root, "train")
 val_root   = os.path.join(data_root, "val")
 
-# ---------- 工具 ----------
+
 def mk_file(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
+
 def copy(src, dst_dir):
     """把文件 src 拷贝到目录 dst_dir 下（保持文件名）"""
     shutil.copy(src, dst_dir)
+
 
 # ---------- 单类别处理函数（子进程跑） ----------
 def process_one_class(args):
@@ -41,7 +44,6 @@ def process_one_class(args):
         copy(src, dst)
     return cla, num
 
-# ---------- 主流程 ----------
 if __name__ == '__main__':
     # 1. 获取类别
     classes = [c for c in os.listdir(origin_data_path)
