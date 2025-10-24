@@ -42,8 +42,8 @@ if __name__ == '__main__':
     Cuda = True
 
     # model = AlexNet(num_classes=num_classes)
-    # model = resnet50(pretrained=pretrained, num_classes=num_classes)
-    model = mobilenetv2(num_classes=num_classes)
+    model = resnet50(pretrained=pretrained, num_classes=num_classes)
+    # model = mobilenetv2(num_classes=num_classes)
 
     # # 导入以及训练好的权重
     # model_path = r"model_data\..."
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     batch_num_val = val_num // batch_size
 
     optimizer = optim.SGD(model.parameters(), lr, momentum=0.9, weight_decay=5e-5)
-    lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.98)
+    lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.95)
     # lf = lambda x: ((1 + math.cos(x * math.pi / Epoch)) / 2) * (1 - 0.01) + 0.01  # cosine
     # lr_scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lf)
     for param in model.parameters():
