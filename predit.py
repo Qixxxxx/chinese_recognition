@@ -5,6 +5,7 @@ from torchvision import transforms
 from PIL import Image
 import glob
 from model.resnet import resnet18
+from model.AlexNet import AlexNet
 import json
 
 
@@ -32,11 +33,10 @@ if __name__ == '__main__':
 
     device        = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     weight_path   = 'model_data/best.pth'
-    model_def     = 'model.model'   # 对应 model/model.py 中的 Net 类
     image_dir     = 'test'
     class_names   = build_class_names("datasets/char_dict_readable.json")
 
-    model  = resnet18(pretrained=False, num_classes=7356).to(device)
+    model  = AlexNet(num_classes=7356).to(device)
 
     model.load_state_dict(torch.load(weight_path, map_location=device), strict=False)
     model.eval()
